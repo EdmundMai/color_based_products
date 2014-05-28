@@ -10,30 +10,7 @@ class Admin::ProductsController < Admin::BaseController
   
   def update
     @product = Product.find(params[:id])
-    
-    if params[:product_images].present?
-      params[:product_images].each do |color_id, images_array|
-        products_color = ProductsColor.find_by(color_id: color_id,  product_id: @product.id)
-        if images_array.present?
-          images_array.each do |image|
-            products_color.product_images << ProductImage.create(image: image, products_color_id: products_color.id)
-          end
-        end
-      end
-    end
-
     if @product.update_attributes(product_params)
-      if params[:new_product_images].present?
-        params[:new_product_images].each do |new_pc_identifier, images_array|
-          new_pc_attributes = params[:product][:products_colors_attributes][new_pc_identifier]
-          products_color = ProductsColor.find_by(color_id: new_pc_attributes[:color_id], product_id: @product.id)
-          if images_array.present?
-            images_array.each do |image|
-              products_color.products_images << ProductImage.create(products_color_id: products_color.id, image: image)
-            end
-          end
-        end
-      end
       redirect_to edit_admin_product_path(@product), notice: "Your product was successfully updated."
     else
       render 'edit'
@@ -132,19 +109,4 @@ class Admin::ProductsController < Admin::BaseController
       params.require(:product_images).permit!
     end
   
-    # if params[:products_color].present?
-    #   params[:products_color].each do |identifier, products_color_attributes|
-    #     products_color = ProductsColor.where(product_id: params[:id], color_id: products_color_attributes[:color_id]).first_or_initialize
-    #     products_color.assign_attributes(products_color_attributes)
-    #     products_color.variants << Variant.new(variant_params[identifier]) if params[:variants]
-    #     if params[:product_images].present?
-    #       if product_image_params[identifier].present?
-    #         product_image_params[identifier][:image].each do |image_file|
-    #           products_color.product_images << ProductImage.new(image: image_file) if image_file
-    #         end
-    #       end
-    #     end
-    #     products_color.save
-    #   end
-    # end
 end

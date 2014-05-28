@@ -10,10 +10,18 @@ class ProductsColor < ActiveRecord::Base
   
   validates_presence_of :color
   
+  def product_images_attributes=(attrs)
+    if attrs[:image].present?
+      attrs[:image].each do |image|
+        self.product_images << ProductImage.new(image: image)
+      end
+    end
+  end
+  
   
   private
   
     def incomplete_variant(attributed)
-      attributed.keys == ["_destroy"]
+      attributed.keys == ["id"]
     end
 end

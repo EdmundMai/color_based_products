@@ -9,6 +9,17 @@ class Product < ActiveRecord::Base
   
   accepts_nested_attributes_for :products_colors, :reject_if => :incomplete_products_color, :allow_destroy => true
   
+  def products_colors_attributes=(attrs)
+    if self.new_record?
+      super(attrs)
+    else
+      attrs.each do |index, attributes|
+        products_color = ProductsColor.where(color_id: attributes[:color_id], product_id: self.id).first_or_initialize
+        products_color.update_attributes(attributes)
+      end
+    end
+  end
+  
   # has_many :variants, -> { order(size: :desc) }, after_remove: :reset_featured_colors!
   # has_many :product_images, -> { order(sort_order: :asc) }
 

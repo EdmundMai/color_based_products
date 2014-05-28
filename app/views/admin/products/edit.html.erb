@@ -42,11 +42,14 @@
 	
 	<%= form.fields_for :products_colors do |pc| %>
 		<%= render 'products_color.html.erb', :pc => pc %>
+		
+		<%= pc.link_to_add "Add Variant", :variants %>
 	<% end %>
 	
-	<%= form.link_to_add "Add Color", :products_colors %>
-	<%#= link_to "Add Variant", add_variant_admin_products_path(product_id: @product.id), remote: true, id: "add_variant_link" %>
 	
+	<div>
+		<%= form.link_to_add "Add Color", :products_colors %>
+	</div>
 	<h3>Men's Color Order</h3>
 	<ul class="sorted_product_mens_color_list">
 		<% form.object.products_colors.order('mens_sort_order ASC').each do |products_color| %>

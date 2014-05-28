@@ -15,6 +15,12 @@ Rails.application.routes.draw do
     resources :materials, only: [:create]
     resources :shapes, only: [:create]
     
+    resources :variants, only: [] do
+      collection do
+        delete 'remove'
+      end
+    end
+    
     resources :products do
       collection do
         get 'generate_variants'
@@ -25,10 +31,11 @@ Rails.application.routes.draw do
       end
     end
     
-    resources :product_colors, only: [] do
+    resources :products_colors, only: [] do
       collection do
         put 'update_mens_sort_order'
         put 'update_womens_sort_order'
+        delete 'remove'
       end
     end
     

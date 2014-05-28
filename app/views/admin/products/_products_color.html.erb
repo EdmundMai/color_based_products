@@ -1,16 +1,19 @@
-<div class="color_container">
+<div class="color_container products_color_number_<%= pc.index %>">
+	<h3>
 	<% if pc.object.new_record? %>
-		<h3><%= pc.collection_select :color_id, Color.all, :id, :name %></h3>
+		<%= pc.collection_select :color_id, Color.all, :id, :name %>
 	<% else %>
-		<h3><%= pc.object.color.name %></h3>
+		<%= pc.object.color.name %>
+		<%= pc.hidden_field :color_id %>
 	<% end %>
+	<%= link_to "Delete", remove_admin_products_colors_path(id: pc.object.id, index: pc.index), remote: true, method: :delete %>
+	</h3>
 	
-	<%= pc.label :image, "Add Images" %>
-	<% if pc.object.new_record? %>
-		<%= pc.file_field :image, multiple: true, name: "#{pc.object_name.sub('product[products_colors_attributes]', 'new_product_images')}[]" %>
-	<% else %>
-		<%= pc.file_field :image, multiple: true, name: "product_images[#{pc.object.color_id}][]" %>
-	<% end %>
+	
+	
+	<%= pc.label "product_images_attributes[image]", "Add Images" %>
+	<%= pc.file_field "product_images_attributes[image]", multiple: true %>
+
 
 	<ul class="sorted_product_image_list">
 	<% pc.object.product_images.each do |product_image| %>
@@ -24,18 +27,21 @@
 	
 	<% pc.object.variants.build if pc.object.new_record? %>
 	<%= pc.fields_for :variants do |v| %>
-		<div class="variant_container">
-		<% if v.object.new_record? %>
-			<%= v.collection_select :size_id, Size.all, :id, :name %>
-		<% else %>
-			<%= v.object.size.name %><br>
-		<% end %>
-		<%= v.label :price %>
-		<%= v.text_field :price %><br>
-		<%= v.label :measurements %>
-		<%= v.text_field :measurements %><br>
-		<%= v.label :sku %>
-		<%= v.text_field :sku %><br>
+		<div class="variant_container variant_number_<%= v.index %>">
+			
+			<% if v.object.new_record? %>
+				<%= v.collection_select :size_id, Size.all, :id, :name %>
+			<% else %>
+				<%= v.object.size.name %>
+			<% end %>
+			<%= link_to "Delete", remove_admin_variants_path(id: v.object.id, index: v.index), remote: true, method: :delete %><br>
+			
+			<%= v.label :price %>
+			<%= v.text_field :price %><br>
+			<%= v.label :measurements %>
+			<%= v.text_field :measurements %><br>
+			<%= v.label :sku %>
+			<%= v.text_field :sku %><br>
 		</div>
 	<% end %>
 </div>

@@ -111,7 +111,7 @@ $(function() {
 				id_list[index] = $(this).attr("id");
 			});
 			jQuery.ajax({
-				 url: '/admin/product_colors/update_mens_sort_order',
+				 url: '/admin/products_colors/update_mens_sort_order',
 				 type: 'PUT',
 				 data: {"new_order": id_list},
 				 dataType: 'script'
@@ -126,7 +126,7 @@ $(function() {
 				id_list[index] = $(this).attr("id");
 			});
 			jQuery.ajax({
-				 url: '/admin/product_colors/update_womens_sort_order',
+				 url: '/admin/products_colors/update_womens_sort_order',
 				 type: 'PUT',
 				 data: {"new_order": id_list},
 				 dataType: 'script'

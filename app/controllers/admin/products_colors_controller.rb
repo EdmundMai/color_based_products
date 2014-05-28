@@ -1,4 +1,4 @@
-class Admin::ProductColorsController < Admin::BaseController
+class Admin::ProductsColorsController < Admin::BaseController
   def update_mens_sort_order
     return unless params[:new_order].present?
     params[:new_order].each_with_index do |product_color_id, index|
@@ -20,6 +20,17 @@ class Admin::ProductColorsController < Admin::BaseController
     end
     respond_to do |format|
       format.js { render json: '' }
+    end
+  end
+  
+  def remove
+    if params[:id].present?
+      @products_color = ProductsColor.find(params[:id])
+      @products_color.destroy
+    end
+    @index = params[:index]
+    respond_to do |format|
+      format.js
     end
   end
 end
