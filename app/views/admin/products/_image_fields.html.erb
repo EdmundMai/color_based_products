@@ -1,0 +1,4 @@
+<div class="product_image" >
+  	<%= f.collection_select :color_id, Color.all, :id, :name, {}, name: "#{f.object_name.sub('product[products_colors_attributes]', 'products_color')}[color_id]" %>
+		<%= f.file_field :image, multiple: true, name: "#{f.object_name.sub('product[products_colors_attributes]', 'product_images')}[image][]" %>
+</div>
