@@ -13,7 +13,7 @@ class Product < ActiveRecord::Base
     if self.new_record?
       super(attrs)
     else
-      attrs.each do |index, attributes|
+      attrs.each do |_, attributes|
         products_color = ProductsColor.where(color_id: attributes[:color_id], product_id: self.id).first_or_initialize
         products_color.update_attributes(attributes)
       end

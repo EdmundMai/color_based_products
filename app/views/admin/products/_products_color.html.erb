@@ -33,6 +33,7 @@
 				<%= v.collection_select :size_id, Size.all, :id, :name %>
 			<% else %>
 				<%= v.object.size.name %>
+				<%= v.hidden_field :size_id %>
 			<% end %>
 			<%= link_to "Delete", remove_admin_variants_path(id: v.object.id, index: v.index), remote: true, method: :delete %><br>
 			
