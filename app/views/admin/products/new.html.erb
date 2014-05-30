@@ -14,6 +14,11 @@
 		<%= form.text_area :long_description %>
 	</div>
 	
+	<div class="field">
+		<%= form.label :category_id, "Category" %>
+		<%= form.collection_select :category_id, Category.all, :id, :name %>
+	</div>
+	
 	<div class="field vendor_container">
 		<%= form.label :vendor_id, "Vendor" %>
 		<%= form.select :vendor_id, vendor_options_with_extra_link_to_create_vendor(form.object.vendor_id) %>
@@ -30,6 +35,10 @@
 		<%= form.select :shape_id, shape_options_with_extra_link_to_create_shape(form.object.shape_id) %>
 	</div>
 	
+	<div class="field">
+		<%= form.label :taxable %>
+		<%= form.check_box :taxable, checked: true %>
+	</div>
 	
 	<h3>Variant Generator</h3>
 	<div class="field">
@@ -40,6 +49,7 @@
 	<div class="sizes_container">
 		<%= render "size" %>
 	</div>
+	
 	<%= link_to "Add Size", add_size_admin_products_path, remote: true %>
 	<div class="colors_container">
 		<%= render :partial => "color" %>
@@ -47,9 +57,7 @@
 	<span class="add_color"><%= link_to "Add Color", add_color_admin_products_path, remote: true %></span><br>
 	
 	
-	<%= link_to "Generate", generate_variants_admin_products_path, id: "generate_variants_link"  %>
-	<span class="variant_error" style="color:red"></span>
-
+	<%= link_to "Generate", generate_variants_admin_products_path, id: "generate_variants_link"  %><br>
 	
 	<div class="variant_container"></div>
 	

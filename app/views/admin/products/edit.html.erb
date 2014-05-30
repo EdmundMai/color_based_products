@@ -23,6 +23,11 @@
 		<%= form.text_area :long_description %>
 	</div>
 	
+	<div class="field">
+		<%= form.label :category_id, "Category" %>
+		<%= form.collection_select :category_id, Category.all, :id, :name %>
+	</div>
+	
 	<div class="field vendor_container">
 		<%= form.label :vendor_id, "Vendor" %>
 		<%= form.select :vendor_id, vendor_options_with_extra_link_to_create_vendor(form.object.vendor_id) %>
@@ -38,7 +43,14 @@
 		<%= form.select :shape_id, shape_options_with_extra_link_to_create_shape(form.object.shape_id) %>
 	</div>
 	
+	<div class="field">
+		<%= form.label :taxable %>
+		<%= form.check_box :taxable %>
+	</div>
 	
+	
+	<h3>Master Price Adjuster</h3>
+	<%= text_field_tag "master_price", nil, id: "master_price" %>
 	
 	<%= form.fields_for :products_colors do |pc| %>
 		<%= render 'products_color.html.erb', :pc => pc %>

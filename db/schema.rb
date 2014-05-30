@@ -11,7 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140529155759) do
+ActiveRecord::Schema.define(version: 20140530215558) do
+
+  create_table "categories", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "colors", force: true do |t|
     t.string   "name"
@@ -29,7 +35,6 @@ ActiveRecord::Schema.define(version: 20140529155759) do
     t.string   "image"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "color_id"
     t.integer  "sort_order"
     t.integer  "products_color_id"
   end
@@ -46,6 +51,8 @@ ActiveRecord::Schema.define(version: 20140529155759) do
     t.text     "long_description"
     t.integer  "shape_id"
     t.integer  "material_id"
+    t.integer  "category_id"
+    t.boolean  "taxable"
   end
 
   create_table "products_colors", force: true do |t|
@@ -114,13 +121,12 @@ ActiveRecord::Schema.define(version: 20140529155759) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "sku"
-    t.boolean  "men"
-    t.boolean  "women"
     t.boolean  "active"
     t.integer  "price_cents",                                default: 0
     t.string   "price_currency",                             default: "USD", null: false
     t.integer  "products_color_id"
     t.integer  "size_id"
+    t.boolean  "in_stock"
   end
 
   create_table "vendors", force: true do |t|

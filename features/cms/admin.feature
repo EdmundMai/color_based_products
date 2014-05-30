@@ -13,7 +13,6 @@ Feature: Admin section
 		Examples:
 			|     section     |
 			|     products    |
-			|     categories  |
 
 	Scenario: Visiting the admin homepage
 		Given I am an authenticated admin user

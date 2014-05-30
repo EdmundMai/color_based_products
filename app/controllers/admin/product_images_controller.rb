@@ -5,6 +5,7 @@ class Admin::ProductImagesController < Admin::BaseController
     @product_image.destroy
     respond_to do |format|
       format.js
+      format.html { render nothing: true }
     end
   end
   

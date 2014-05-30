@@ -1,5 +1,4 @@
 class ProductImage < ActiveRecord::Base
   mount_uploader :image, ProductImageUploader
-  belongs_to :product
-  belongs_to :color
+  belongs_to :products_color
 end

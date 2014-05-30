@@ -60,6 +60,9 @@ $(document).on('click', '#new_material_option', function(e) {
 });
 
 $(document).on('keydown', '#new_color_text_field', function(e) { 
+	var colors_select = $(this).siblings(".colors");
+	var index_of_select_dropdown = $(".colors").index(colors_select);
+	
 	if (e.keyCode == 13) {
 		var color_name = $('#new_color_text_field').val();
 		$("#new_color_text_field").remove();
@@ -67,7 +70,7 @@ $(document).on('keydown', '#new_color_text_field', function(e) {
 		jQuery.ajax({
 			url: "/admin/colors",
 			type: 'POST',
-			data: {"color": {"name": color_name} },
+			data: {"color": {"name": color_name}, "index": index_of_select_dropdown},
 			dataType: 'script'
 		});
 	}
@@ -75,9 +78,10 @@ $(document).on('keydown', '#new_color_text_field', function(e) {
 
 
 $(document).on('click', '#new_color_option', function(e) { 
-	if (!document.querySelector("#new_color_text_field")) {
-		$(".colors_container").append("<input id='new_color_text_field' name='color[name]' type='text' placeholder='Enter a color name'></input>");
-	}
+	// if (!document.querySelector("#new_color_text_field")) {
+		// $(".colors_container").append("<input id='new_color_text_field' name='color[name]' type='text' placeholder='Enter a color name'></input>");
+		$(this).parent().after("<input id='new_color_text_field' name='color[name]' type='text' placeholder='Enter a color name'></input>");
+	// }
 });
 
 
@@ -103,6 +107,10 @@ $(document).on('click', '#new_vendor_option', function(e) {
 });
 
 $(function() {
+	
+	$("#master_price").on("change keyup", function() {
+		$(".variant_price").val($(this).val());
+	});
 	
 	$('.sorted_product_mens_color_list').sortable({
 		update: function( event, ui ) {
@@ -163,6 +171,15 @@ $(function() {
 				selected_sizes_and_measurements[size] = measurements;
 			}
 		});
+		
+		var selected_sizes_and_weights = {};
+		$(".size_inputs").each(function(i, div){
+		  var size = $(div).find(".sizes").val();
+		  var weight = $(div).find(".weight").val();
+			if (size) {
+				selected_sizes_and_weights[size] = weight;
+			}
+		});
 
 		var selected_colors_and_genders = {};
 		$(".color_inputs").each(function(i, div){
@@ -178,7 +195,11 @@ $(function() {
 		jQuery.ajax({
 			url: "/admin/products/generate_variants",
 			type: 'GET',
-			data: {"price": price, "sizes_and_measurements": selected_sizes_and_measurements, "colors_and_genders": selected_colors_and_genders},
+			data: {"price": price, 
+						"sizes_and_measurements": selected_sizes_and_measurements, 
+						"colors_and_genders": selected_colors_and_genders,
+						"sizes_and_weights": selected_sizes_and_weights
+					},
 			dataType: 'script'
 		});
 

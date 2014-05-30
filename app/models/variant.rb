@@ -1,5 +1,8 @@
 class Variant < ActiveRecord::Base
   belongs_to :products_color
+  
+  has_one :product, through: :products_color
+  
   belongs_to :color
   belongs_to :size
   

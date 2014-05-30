@@ -20,4 +20,10 @@ namespace :nti do
     end
   end
   
+  task(:create_categories => :environment) do
+    ["Eyeglasses", "Sunglasses"].each do |category_name|
+      Category.create(name: category_name) unless Category.exists?(name: category_name)
+    end
+  end
+  
 end

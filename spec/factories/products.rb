@@ -3,15 +3,16 @@
 FactoryGirl.define do
   factory :product do
     name "Lorem"
-    description "Ipsum"
+    short_description "sh0rtDesC"
+    long_description "L0ngD3sc"
     active true
     page_title "My Title"
     meta_description "My Meta Description"
     
-    factory :product_with_variants do
+    factory :complete_product do
       after(:create) do |product, evaluator|
-        product.variants << FactoryGirl.create(:variant, color: "Red", product_id: product.id)
-        product.variants << FactoryGirl.create(:variant, color: "Blue", product_id: product.id)
+        product.products_colors << FactoryGirl.create(:products_color_with_variants_and_images, product_id: product.id)
+        product.products_colors << FactoryGirl.create(:products_color_with_variants_and_images, product_id: product.id)
       end
     end
 

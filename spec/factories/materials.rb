@@ -2,6 +2,6 @@
 
 FactoryGirl.define do
   factory :material do
-    name "MyString"
+    sequence(:name) { |n| "my-material#{n}"}
   end
 end

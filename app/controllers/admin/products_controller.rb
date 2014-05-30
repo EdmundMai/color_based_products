@@ -34,6 +34,7 @@ class Admin::ProductsController < Admin::BaseController
   def generate_variants
     price = params[:price] || 0
     sizes_and_measurements = params[:sizes_and_measurements]
+    sizes_and_weights = params[:sizes_and_weights]
     colors_and_genders = params[:colors_and_genders]
     @products_colors = []
     colors_and_genders.each do |color_id, gender|
@@ -44,6 +45,7 @@ class Admin::ProductsController < Admin::BaseController
       sizes_and_measurements.each do |size_id, measurements|
         product_color.variants << Variant.new(size_id: size_id,
                                           measurements: measurements,
+                                          weight: sizes_and_weights[size_id],
                                           price: price)
       end
       @products_colors << product_color
@@ -66,11 +68,6 @@ class Admin::ProductsController < Admin::BaseController
     end
   end
   
-  # def add_image
-  #   respond_to do |format|
-  #     format.js
-  #   end
-  # end
   
   def add_variant
     @product = Product.find(params[:product_id])
@@ -87,26 +84,34 @@ class Admin::ProductsController < Admin::BaseController
                                       :long_description, 
                                       :active, 
                                       :meta_description, 
-                                      :page_title, 
+                                      :page_title,
+                                      :taxable, 
                                       :vendor_id, 
                                       :material_id, 
-                                      :shape_id, 
-                                      :products_colors_attributes => [:id, 
+                                      :shape_id,
+                                      :category_id, 
+                                      :products_colors_attributes => [
+                                        :id, 
                                         :mens, 
                                         :womens,
                                         :color_id,
                                         :_destroy, 
-                                        :product_images_attributes => [:color_id, :image => []],
-                                        :variants_attributes => (Variant.column_names.clone << :price << :_destroy)]
+                                        :product_images_attributes => [
+                                          :color_id, 
+                                          :image => []
+                                        ],
+                                        :variants_attributes => [
+                                          :id,
+                                          :weight,
+                                          :measurements,
+                                          :sku,
+                                          :price,
+                                          :in_stock,
+                                          :products_color_id,
+                                          :size_id
+                                        ]                                        
+                                      ]
                                       )
     end
     
-    def variant_params
-      params.require(:variants).permit!
-    end
-    
-    def product_image_params
-      params.require(:product_images).permit!
-    end
-  
 end

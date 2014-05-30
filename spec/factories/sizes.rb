@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :size do
-    name "MyString"
-    sort_order 1
+    sequence(:name) { |n| "my-size#{n}" }
+    sequence(:sort_order) { |n| n }
   end
 end

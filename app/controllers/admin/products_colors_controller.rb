@@ -31,6 +31,7 @@ class Admin::ProductsColorsController < Admin::BaseController
     @index = params[:index]
     respond_to do |format|
       format.js
+      format.html { render nothing: true }
     end
   end
 end

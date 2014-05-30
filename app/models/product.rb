@@ -2,6 +2,7 @@ class Product < ActiveRecord::Base
   belongs_to :vendor
   belongs_to :shape
   belongs_to :material
+  belongs_to :category
   
   has_many :products_colors
   has_many :variants, through: :products_colors, dependent: :destroy

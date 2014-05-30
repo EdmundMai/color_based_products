@@ -2,10 +2,10 @@
 
 FactoryGirl.define do
   factory :variant do
-    product_id 1
     weight "9.99"
     measurements "MyString"
-    size "MyString"
-    color
+    sku "abc123"
+    price 11.22
+    size
   end
 end

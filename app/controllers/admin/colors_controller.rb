@@ -1,6 +1,7 @@
 class Admin::ColorsController < Admin::BaseController
   def create
     @color = Color.new(color_params)
+    @index = params[:index]
     unless @color.save
       @color = nil
     end
