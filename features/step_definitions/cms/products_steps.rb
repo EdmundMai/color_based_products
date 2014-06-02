@@ -121,7 +121,7 @@ When(/^I generate multiple variants$/) do
   expect(first_womens_checkbox).to be_checked
   
   click_link("Add Color")
-  sleep 2
+  sleep 1
   
   second_mens_checkbox = page.all(".genders")[2]
   second_womens_checkbox = page.all(".genders")[3]
@@ -135,7 +135,7 @@ When(/^I generate multiple variants$/) do
   end
   
   click_link("Generate")
-  sleep 2
+  sleep 1
   
   within(".variant_container") do
     expect(page).to have_css("table.variants_table tr", count: 5)
@@ -225,20 +225,14 @@ Then(/^I should be on the edit product page$/) do
   expect(current_path).to eq(edit_admin_product_path(product))
 end
 
-When(/^I create a new vendor named "(.*?)"$/) do |vendor_name|
+When(/^I add a vendor$/) do
   find("option[id='new_vendor_option']").click
-  fill_in("vendor[name]", with: vendor_name)
+  fill_in("vendor[name]", with: "Gucci")
   find(:id, 'new_vendor_text_field').native.send_keys(:enter)
 end
 
-Then(/^"(.*?)" should be on the vendor list$/) do |vendor_name|
-  expect(page).to have_select("product[vendor_id]", with_options: [vendor_name])
-end
-
-When(/^I create a new color named "(.*?)"$/) do |color_name|
-  find("option[id='new_color_option']").click
-  fill_in("color[name]", with: color_name)
-  find(:id, 'new_color_text_field').native.send_keys(:enter)
+Then(/^that vendor should be available in the the product form$/) do 
+  expect(page).to have_select("product[vendor_id]", with_options: ["Gucci"])
 end
 
 Then(/^"(.*?)" should be on the color list$/) do |color_name|
@@ -312,7 +306,6 @@ When(/^I create a new products color$/) do
     fill_in("Weight", with: "1.22")
     check("In stock") 
   end
-  sleep 20
 end
 
 Then(/^my products color should be saved$/) do
@@ -448,3 +441,40 @@ end
 Then(/^that image should be deleted$/) do
   expect(ProductImage.count).to eq(1)
 end
+
+When(/^I add a variant of the same size and color$/) do
+  product = Product.last
+  products_color = product.products_colors.last
+  expect(products_color.variants.count).to eq(1)
+
+  click_link("Add Color")
+  new_color_div = page.all(:css, ".color_container")[-1]
+  within(new_color_div) do
+    attach_file('Add Images', File.join(Rails.root, 'spec', 'support', 'sample_img.jpg'))
+    check("Men's")
+    check("Women's")
+    
+    color_select = page.all(:css, "select")[0]
+    within(color_select) do
+      page.all(:option, products_color.color.name)[0].click
+    end
+    
+    new_variant_div = page.all(:css, ".variant_container")[-1]
+    within(new_variant_div) do
+      page.all(:option, products_color.variants.last.size.name)[0].click
+
+      fill_in("Price", with: "11.22") 
+      fill_in("Measurements", with: "11-11-11") 
+      fill_in("Sku", with: "NEWSKU") 
+      fill_in("Weight", with: "1.22")
+      check("In stock") 
+    end
+  end
+end
+
+Then(/^there should only be one variant of that product color and size$/) do
+  product = Product.last
+  products_color = product.products_colors.last
+  expect(products_color.variants.count).to eq(1)
+end
+

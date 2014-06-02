@@ -22,5 +22,4 @@ Then(/^I should see the admin homepage$/) do
   expect(current_path).to eq(admin_path)
   expect(page).to have_content("Admin Homepage")
   expect(page).to have_link("Products")
-  expect(page).to have_link("Categories")
 end

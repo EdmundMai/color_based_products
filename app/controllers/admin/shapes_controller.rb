@@ -1,9 +1,6 @@
 class Admin::ShapesController < Admin::BaseController
   def create
-    @shape = Shape.new(shape_params)
-    unless @shape.save
-      @shape = nil
-    end
+    @shape = Shape.where(name: shape_params[:name]).first_or_create
     respond_to do |format|
       format.js
     end

@@ -1,10 +1,7 @@
 class Admin::ColorsController < Admin::BaseController
   def create
-    @color = Color.new(color_params)
+    @color = Color.where(name: color_params[:name]).first_or_create
     @index = params[:index]
-    unless @color.save
-      @color = nil
-    end
     respond_to do |format|
       format.js
     end

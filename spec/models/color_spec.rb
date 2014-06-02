@@ -5,5 +5,6 @@ describe Color do
   
   it { should have_many(:products_colors) }
   
+  it { should validate_uniqueness_of(:name) }
   
 end

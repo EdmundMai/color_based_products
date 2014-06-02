@@ -90,10 +90,8 @@ Feature: Products
 		And I delete the last product image
 		Then that image should be deleted
 		
-		
-	
 	@javascript
-	Scenario: Adding a variant to an existing color through the new color form
+	Scenario: Adding a new variant to an existing color through the new color form
 		Given an existing complete product
 		And existing sizes
 		When I visit the admin products edit page
@@ -102,3 +100,11 @@ Feature: Products
 		Then there should only be one product color of that color
 		And that product color should have a new variant
 		
+	@javascript
+	Scenario: Adding an existing variant to an existing color through the new color form
+		Given an existing complete product
+		And existing sizes
+		When I visit the admin products edit page
+		And I add a variant of the same size and color
+		And I update my product
+		Then there should only be one variant of that product color and size

@@ -1,9 +1,6 @@
 class Admin::VendorsController < Admin::BaseController
   def create
-    @vendor = Vendor.new(vendor_params)
-    unless @vendor.save
-      @vendor = nil
-    end
+    @vendor = Vendor.where(name: vendor_params[:name]).first_or_create
     respond_to do |format|
       format.js
     end
